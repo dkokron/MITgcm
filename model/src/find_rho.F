@@ -151,7 +151,7 @@ C **********
      &      .OR. equationOfState.EQ.'UNESCO' ) THEN
 C     nonlinear equation of state in pressure coordinates
 
-#ifdef OPTIMIZATIONS_DSK
+#ifdef DSK_OPT_RHO2D
       DO j=jMin,jMax
          DO i=iMin,iMax
 !     abbreviations
@@ -241,7 +241,7 @@ C     nonlinear equation of state in pressure coordinates
      &                    (bMfresh + bMsalt + bMpres - p) - rhoConst
          ENDDO
       ENDDO
-#else
+#else /* undef DSK_OPT_RHO2D */
          CALL PRESSURE_FOR_EOS(
      I             bi, bj, iMin, iMax, jMin, jMax, kRef,
      O             locPres,
@@ -258,7 +258,7 @@ C     nonlinear equation of state in pressure coordinates
      I             locPres, tFld, sFld,
      O             bulkMod,
      I             myThid )
-#endif
+#endif /* DSK_OPT_RHO2D */
 
 c#ifdef ALLOW_AUTODIFF_TAMC
 cph can not DO storing here since find_rho is called multiple times;
