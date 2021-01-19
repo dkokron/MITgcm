@@ -62,8 +62,10 @@ C     kRef :: Pressure reference level
 C     !LOCAL VARIABLES:
 C     == Local variables ==
       INTEGER i,j
+#ifdef DSK_OPT_RHO2D
       _RL rfresh, rsalt, bMfresh, bMsalt, bMpres
       _RL t, t2, t3, t4, s, s3o2, p, p2
+#endif
 
       _RL refTemp,refSalt,sigRef,tP,sP,deltaSig,dRho
       _RL oneMinusKap, facPres, theta_v
@@ -258,12 +260,23 @@ C     nonlinear equation of state in pressure coordinates
      I             locPres, tFld, sFld,
      O             bulkMod,
      I             myThid )
-#endif /* DSK_OPT_RHO2D */
 
 c#ifdef ALLOW_AUTODIFF_TAMC
 cph can not DO storing here since find_rho is called multiple times;
 cph additional recomp. should be acceptable
 c#endif /* ALLOW_AUTODIFF_TAMC */
+         DO j=jMin,jMax
+          DO i=iMin,iMax
+
+C     density of sea water at pressure p
+            rhoLoc(i,j) = rhoP0(i,j)
+     &              /(1. _d 0 -
+     &              locPres(i,j)*SItoBar/bulkMod(i,j) )
+     &              - rhoConst
+
+          ENDDO
+         ENDDO
+#endif /* DSK_OPT_RHO2D */
 
       ELSEIF ( equationOfState.EQ.'MDJWF' ) THEN
 
