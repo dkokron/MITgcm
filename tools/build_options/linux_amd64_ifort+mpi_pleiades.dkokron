@@ -8,7 +8,7 @@ FC=ifort
 CC=icc
 
 CPP='/lib/cpp -traditional -P'
-DEFINES='-DALLOW_USE_MPI -DWORDLENGTH=4 -DINTEL_COMMITQQ -DSEAICE_VECTORIZE_LSR -DOPTIMIZATIONS_DSK -DPLEIADES_LUSTRE_OPT'
+DEFINES='-DALLOW_USE_MPI -DWORDLENGTH=4 -DINTEL_COMMITQQ -DDSK_OPT_MOMCALCVISC -DDSK_OPT_GADR -DDSK_OPT_KPP -DDSK_OPT_MOMUV -DDSK_OPT_RHO2D -DDSK_OPT_TMPIJ -DPLEIADES_LUSTRE_OPT'
 #DEFINES='-DALLOW_USE_MPI -DWORDLENGTH=4 -DINTEL_COMMITQQ -DALLOW_ASYNCIO'
 F90FIXEDFORMAT='-fixed -Tf'
 EXTENDED_SRC_FLAG='-132'
@@ -35,10 +35,10 @@ LDADD='-shared-intel'
 
 FFLAGS="$FFLAGS -W0 -WB"
 if test "x$IEEE" = x ; then     #- with optimisation:
-    #FOPTIM='-g -O2 -ipo -fp-model precise -align -axCORE-AVX2 -xSSE4.2 -traceback -ftz -diag-disable cpu-dispatch'
+    FOPTIM='-g -O2 -ip -fp-model precise -align -axCORE-AVX2 -xSSE4.2 -traceback -ftz -diag-disable cpu-dispatch'
     #FOPTIM='-g -O2 -ipo -fp-model precise -align -xCORE-AVX2 -traceback -ftz -diag-disable cpu-dispatch'
     #FOPTIM='-g -O2 -ipo -fp-model precise -align -xSSE4.2 -no-prec-div -traceback -ftz -diag-disable cpu-dispatch'
-    FOPTIM='-g -O2 -ip -fp-model precise -align -xAVX -no-prec-div -traceback -ftz -diag-disable cpu-dispatch'
+    #FOPTIM='-g -O2 -ip -fp-model precise -align -xAVX -no-prec-div -traceback -ftz -diag-disable cpu-dispatch'
     #FOPTIM='-g -O2 -ipo -fp-model precise -align -xAVX -no-prec-div -traceback -ftz -diag-disable cpu-dispatch'
     #FOPTIM='-g -O2 -ipo -fp-model precise -align -xCORE-AVX2 -no-prec-div -traceback -ftz -diag-disable cpu-dispatch'
     NOOPTFILES='seaice_growth.F calc_oce_mxlayer.F fizhi_lsm.F fizhi_clockstuff.F ini_parms.F'
